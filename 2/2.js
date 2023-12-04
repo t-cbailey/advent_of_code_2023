@@ -1,7 +1,5 @@
 const fsPromises = require("fs").promises;
 
-// Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
-
 async function formatInput() {
   const input = await fsPromises.readFile(
     "/Users/timbailey/coding/advent_of_code_2023/2/input.txt",
@@ -36,6 +34,8 @@ async function formatData() {
   return games;
 }
 
+// Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
+
 async function possibleGaming() {
   const games = await formatData();
   let total = 0;
@@ -64,6 +64,14 @@ async function isPossible(turn) {
   return true;
 }
 
+possibleGaming().then((res) => console.log(res));
+
+//As you continue your walk, the Elf poses a second question: in each game you played, what is the fewest number of cubes of each color that could have been in the bag to make the game possible?
+
+//The power of a set of cubes is equal to the numbers of red, green, and blue cubes multiplied together. The power of the minimum set of cubes in game 1 is 48. In games 2-5 it was 12, 1560, 630, and 36, respectively. Adding up these five powers produces the sum 2286.
+
+//For each game, find the minimum set of cubes that must have been present. What is the sum of the power of these sets?
+
 async function sumOfPower() {
   const games = await formatData();
   const result = [];
@@ -91,5 +99,4 @@ async function sumOfPower() {
   });
 }
 
-possibleGaming().then((res) => console.log(res));
 sumOfPower().then((res) => console.log(res));
