@@ -35,6 +35,7 @@ function formatInput() {
   return { data: formattedArr, seed };
 }
 
+//search locations, not seeds! map in reverse...
 function findSeedLocations() {
   const formattedData = formatInput();
   const { data, seed } = formattedData;
