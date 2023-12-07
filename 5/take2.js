@@ -1,8 +1,9 @@
 const fs = require("fs");
+const { loadavg } = require("os");
 
 function formatInput() {
   const input = fs.readFileSync(
-    "/Users/timbailey/coding/advent_of_code_2023/5/testData.txt",
+    "/Users/timbailey/coding/advent_of_code_2023/5/input.txt",
     "utf8"
   );
   const dataArr = input.split("\n");
@@ -37,56 +38,40 @@ function formatInput() {
 function findSeedLocations() {
   const formattedData = formatInput();
   const { data, seed } = formattedData;
-
   const seedPairs = [];
+  const search = true;
 
   for (let i = 0; i < seed.length; i = i + 2) {
     seedPairs.push([+seed[i], +seed[i + 1] + +seed[i]]);
   }
 
-  const finalPairs = [];
-  seedPairs.forEach((pair, i) => {
-    if (finalPairs.length === 0) {
-      finalPairs.push(pair);
-    }
-  });
-
-  const checked = [];
-  const allMapped = seedPairs.map((pair) => {
-    console.log(pair, "<-- currPair");
-    let lowest = 0;
-    const start = pair[0];
-    const end = pair[1];
-
-    for (let i = start; i < end; i++) {
-      const mapped = convertToLocation(i, data);
-      if (i === start || mapped < lowest) {
-        lowest = mapped;
+  for (let i = 0; search === true; i++) {
+    const mapped = locationToSeed(i, data);
+    console.log(mapped, "<--seed", i, "<--location");
+    for (let x = 0; x < seedPairs.length; x++) {
+      if (mapped >= seedPairs[x][0] && mapped < seedPairs[x][1]) {
+        return i;
       }
     }
-
-    return lowest;
-  });
-
-  return Math.min(...allMapped);
+  }
 }
 
-function convertToLocation(seed, data, index = 0) {
+function locationToSeed(location, data, index = data.length - 1) {
   if (Array.isArray(data[index])) {
     currData = data[index];
+    let result = location;
     for (let i = 1; i < currData.length; i++) {
       if (
-        +seed >= +currData[i][1] &&
-        +seed <= +currData[i][2] + +currData[i][1]
+        +location >= +currData[i][0] &&
+        +location <= +currData[i][2] + +currData[i][0]
       ) {
-        const difference = seed - currData[i][1];
-        result = +currData[i][0] + +difference;
+        const difference = +location - +currData[i][0];
+        result = +currData[i][1] + +difference;
         break;
-      } else result = +seed;
+      } else result = location;
     }
-
-    return convertToLocation(result, data, index + 1);
-  } else return seed;
+    return locationToSeed(result, data, index - 1);
+  } else return location;
 }
 
 console.log(findSeedLocations(), "<-- result");
