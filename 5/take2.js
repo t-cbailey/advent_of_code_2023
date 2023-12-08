@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { loadavg } = require("os");
 
 function formatInput() {
   const input = fs.readFileSync(

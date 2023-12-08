@@ -1,6 +1,3 @@
-const { assertPipelinePrimaryTopicReference } = require("@babel/types");
-const { count } = require("console");
-
 const fsPromises = require("fs").promises;
 
 async function formatInput() {
