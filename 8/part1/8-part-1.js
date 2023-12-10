@@ -19,6 +19,6 @@ function formatInput() {
       return [split[0], [split[1], split[2]]];
     });
 
-  return map;
+  return [directions, map];
 }
 formatInput();
