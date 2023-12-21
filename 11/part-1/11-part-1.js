@@ -17,11 +17,12 @@ const cosmicExpansion = (inputType) => {
   const data = formatInput(inputType);
   const expandedUni = addLines(data);
   const coords = findCoords(expandedUni);
-  const result = findDistances(coords);
-  return result.reduce((a, b) => a + b);
+  const distances = findDistances(coords);
+  return distances.reduce((a, b) => a + b);
 };
 
 const addLines = (data) => {
+  extraCount = 0;
   // insert extra columns
   let index = 0;
   let count = 0;
@@ -32,6 +33,7 @@ const addLines = (data) => {
       } else if (count === data.length - 1) {
         for (let x = 0; x < data.length; x++) {
           data[x].splice(index, 0, ".");
+          extraCount++;
         }
         index++;
       }
@@ -51,10 +53,12 @@ const addLines = (data) => {
         const newArr = Array(data[i].length).fill(".");
         data.splice(i, 0, newArr);
         i++;
+        extraCount++;
       }
       count++;
     }
   }
+  console.log(extraCount);
 
   return data;
 };
@@ -87,5 +91,5 @@ const findDistances = (coords) => {
   });
   return distances;
 };
-console.log(cosmicExpansion("input"));
+console.log(cosmicExpansion("testData"), "<-- result!");
 module.exports = { addLines };
